@@ -1,16 +1,22 @@
 #!/bin/bash
 
-# Get the 4-digit integer from the command line argument
-input=$1
-
-# Check if the input is provided
-if [ -z "$input" ]; then
-    echo "Please provide a 4-digit integer as input."
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <4-digit-integer>"
     exit 1
 fi
 
-# Perform hashing (using SHA-256 in this example)
-hash_value=$(echo -n "$input" | sha256sum | awk '{print $1}')
+# Validate that the input is a 4-digit integer
+if ! [[ "$1" =~ ^[0-9]{4}$ ]]; then
+    echo "Error: Please provide a valid 4-digit integer."
+    exit 1
+fi
 
-# Print the hash value
-echo "Hash of $input: $hash_value"
+# Get the input 4-digit integer
+input_integer="$1"
+
+# Hash the input using SHA-256 and save the output to hash_output.txt
+hash_output=$(echo -n "$input_integer" | sha256sum)
+echo "$hash_output" > hash_output.txt
+
+echo "Hash successfully generated and saved to hash_output.txt"

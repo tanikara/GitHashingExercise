@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the 4-digit integer from the command line argument
+input=$1
+
+# Check if the input is provided
+if [ -z "$input" ]; then
+    echo "Please provide a 4-digit integer as input."
+    exit 1
+fi
+
+# Perform hashing (using SHA-256 in this example)
+hash_value=$(echo -n "$input" | sha256sum | awk '{print $1}')
+
+# Print the hash value
+echo "Hash of $input: $hash_value"
